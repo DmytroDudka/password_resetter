@@ -6,10 +6,11 @@ import com.pr.util.service.ResetterService;
 import java.io.IOException;
 
 public class PREXECUTOR {
-    public static void main(String[] args) throws IOException {
-        PasswordResetterImplementation dropper = new PasswordResetterImplementation();
-        ResetterService worker = ResetterService.initializeComponent(dropper);
-        worker.start();
-    }
+
+  public static void main(String[] args) throws IOException {
+    PasswordResetterImplementation dropper = new PasswordResetterImplementation();
+    ResetterService executor = ResetterService.initializeComponent(dropper);
+    executor.start();
+  }
 }
 

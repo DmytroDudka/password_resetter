@@ -12,82 +12,85 @@ import java.util.List;
 
 public class PasswordResetterImplementation {
 
-    private static ProcessBuilder commandsExecutor;
+  private static ProcessBuilder commandsExecutor;
 
-    public List<String> getAllUsers() throws IOException {
+  public List<String> getAllUsers() throws IOException {
 
-        commandsExecutor = new ProcessBuilder(
-                CMD_EXE, SEPARATOR, CHANGE_CODING);
+    commandsExecutor = new ProcessBuilder(
+        CMD_EXE, SEPARATOR, CHANGE_CODING);
 
-        Process netUserProcess = commandsExecutor.start();
+    Process process = commandsExecutor.start();
 
-        BufferedReader r = new BufferedReader(new InputStreamReader(netUserProcess.getInputStream()));
+    BufferedReader bufferedReader = new BufferedReader(
+        new InputStreamReader(process.getInputStream()));
 
-        StringBuilder stringBuilder = new StringBuilder();
-        String line;
+    StringBuilder stringBuilder = new StringBuilder();
+    String line;
 
-        while (true) {
-            line = r.readLine();
+    while (true) {
+      line = bufferedReader.readLine();
 
-            if (line == null) {
-                break;
-            }
+      if (line == null) {
+        break;
+      }
 
-            if (line.contains(ADMINISTRATOR)) {
-                String clearedString = StringUtils.normalizeSpace(line);
+      if (line.contains(ADMINISTRATOR)) {
+        String parsedLine = StringUtils.normalizeSpace(line);
 
-                stringBuilder.append(clearedString);
-            }
+        stringBuilder.append(parsedLine);
+      }
 
-        }
-
-        return Arrays.asList(
-            stringBuilder.toString().split(SPACE)
-        );
     }
 
-    public void getCurrentUserInfo(String userName) throws IOException {
+    return Arrays.asList(
+        stringBuilder.toString().split(SPACE)
+    );
+  }
 
-        commandsExecutor = new ProcessBuilder(
-                CMD_EXE, SEPARATOR, CHANGE_CODING + SPACE + userName);
+  public void getCurrentUserInfo(String username) throws IOException {
 
-        Process netUserProcess = commandsExecutor.start();
+    commandsExecutor = new ProcessBuilder(
+        CMD_EXE, SEPARATOR, CHANGE_CODING + SPACE + username);
 
-        BufferedReader r = new BufferedReader(new InputStreamReader(netUserProcess.getInputStream()));
+    Process process = commandsExecutor.start();
 
-        String line;
+    BufferedReader bufferedReader = new BufferedReader(
+        new InputStreamReader(process.getInputStream()));
 
-        while (true) {
-            line = r.readLine();
+    String line;
 
-            if (line == null || line.contains(MEMBERSHIP)) {
-                break;
-            }
+    while (true) {
+      line = bufferedReader.readLine();
 
-            System.out.println(line);
+      if (line == null || line.contains(MEMBERSHIP)) {
+        break;
+      }
 
-        }
+      System.out.println(line);
+
     }
+  }
 
-    public void refreshCurrentUserPassword(String userName, String newPassword) throws IOException {
-        commandsExecutor = new ProcessBuilder(
-                CMD_EXE, SEPARATOR, CHANGE_CODING + SPACE + userName + SPACE + newPassword);
+  public void refreshCurrentUserPassword(String userName, String newPassword) throws IOException {
+    commandsExecutor = new ProcessBuilder(
+        CMD_EXE, SEPARATOR, CHANGE_CODING + SPACE + userName + SPACE + newPassword);
 
-        Process netUserProcess = commandsExecutor.start();
+    Process process = commandsExecutor.start();
 
-        BufferedReader r = new BufferedReader(new InputStreamReader(netUserProcess.getInputStream()));
+    BufferedReader bufferedReader = new BufferedReader(
+        new InputStreamReader(process.getInputStream()));
 
-        String line;
+    String line;
 
-        while (true) {
-            line = r.readLine();
+    while (true) {
+      line = bufferedReader.readLine();
 
-            if (line == null || line.contains(MEMBERSHIP)) {
-                break;
-            }
+      if (line == null || line.contains(MEMBERSHIP)) {
+        break;
+      }
 
-            System.out.println(line);
+      System.out.println(line);
 
-        }
     }
+  }
 }
